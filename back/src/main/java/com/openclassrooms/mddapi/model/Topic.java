@@ -1,14 +1,22 @@
 package com.openclassrooms.mddapi.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "topics")
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Topic {
 
 	@Id
@@ -17,22 +25,19 @@ public class Topic {
 	private Long id;
 	
 	@Column(nullable = false)
+	@NotNull
+	@Size(max = 80)
 	private String name;
 
-	public Long getId() {
-		return id;
-	}
+	@Column(nullable = false)
+	@NotNull
+	@Size(max = 80)
+	private String description;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+	@CreatedDate
+	@Column(name = "created_at", updatable = false)
+	private LocalDateTime createdAt;
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-	
+	@ManyToMany(mappedBy = "subscribedTopics")
+	private Set<User> subscribers = new HashSet<>();
 }

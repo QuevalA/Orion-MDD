@@ -12,7 +12,6 @@ import com.openclassrooms.mddapi.service.ITopicService;
 @RestController
 @RequestMapping("/topic")
 public class TopicController {
-	
 	private ITopicService topicService;
 	
 	public TopicController(ITopicService topicService) {
@@ -23,6 +22,4 @@ public class TopicController {
 	public List<Topic> getTopics() {
 		return topicService.getTopics();
 	}
-	
-	
 }

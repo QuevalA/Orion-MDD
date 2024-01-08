@@ -9,7 +9,6 @@ import com.openclassrooms.mddapi.repository.TopicRepository;
 
 @Service
 public class TopicService implements ITopicService {
-
 	private TopicRepository topicRepository;
 	
 	public TopicService(TopicRepository topicRepository) {
