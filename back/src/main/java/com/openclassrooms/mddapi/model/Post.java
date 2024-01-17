@@ -29,9 +29,9 @@ public class Post {
 	@Size(max = 80)
 	private String title;
 
-	@Column(nullable = false)
+	@Column(nullable = false, columnDefinition = "TEXT")
 	@NotNull
-	@Size(max = 20000)
+	@Size(max = 10000)
 	private String content;
 
 	@CreatedDate
