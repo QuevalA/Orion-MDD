@@ -2,8 +2,12 @@ package com.openclassrooms.mddapi.service;
 
 import java.util.List;
 
-import com.openclassrooms.mddapi.model.Topic;
+import com.openclassrooms.mddapi.dto.SubscribedTopicDTO;
+import com.openclassrooms.mddapi.dto.TopicDTO;
 
 public interface ITopicService {
-	List<Topic> getTopics();
+	List<TopicDTO> getTopics();
+
+	TopicDTO getTopicDTOById(Long id);
+	List<SubscribedTopicDTO> getSubscribedTopicsByUserId(Long userId);
 }

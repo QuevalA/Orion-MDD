@@ -1,5 +1,7 @@
 package com.openclassrooms.mddapi.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
@@ -55,6 +57,7 @@ public class User {
     private LocalDateTime updatedAt;
 
     @OneToMany(mappedBy = "postAuthor")
+    @JsonIgnore
     private List<Post> authoredPosts = new ArrayList<>();
 
     @OneToMany(mappedBy = "commentAuthor")
