@@ -2,7 +2,6 @@ package com.openclassrooms.mddapi.security.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.openclassrooms.mddapi.payload.request.AuthRequest;
-import com.openclassrooms.mddapi.security.services.UserDetailsImpl;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

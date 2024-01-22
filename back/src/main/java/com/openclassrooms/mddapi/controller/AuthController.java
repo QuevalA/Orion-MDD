@@ -53,19 +53,10 @@ public class AuthController {
 
     @PostMapping("/public/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody RegistrationRequest registrationRequest) {
-        // Debug print
-        System.out.println("Received registration request: " + registrationRequest);
-
         // Check if the email is already registered
         if (userRepository.existsByEmail(registrationRequest.getEmail())) {
-            // Debug print
-            System.out.println("Email is already taken: " + registrationRequest.getEmail());
-
             return ResponseEntity.badRequest().body("Email is already taken.");
         }
-
-        // Debug print
-        System.out.println("Email is available: " + registrationRequest.getEmail());
 
         // Create a new user
         User user = User.builder()
@@ -74,35 +65,18 @@ public class AuthController {
                 .username(registrationRequest.getUsername())
                 .build();
 
-        // Debug print
-        System.out.println("New user created: " + user);
-
-        // Save the user to the database
         userRepository.save(user);
-
-        // Debug print
-        System.out.println("User saved to the database");
 
         // Load user details from custom user details service
         UserDetails userDetails = userDetailsService.loadUserByUsername(user.getEmail());
 
-        // Debug print
-        System.out.println("User details loaded from custom user details service: " + userDetails);
-
-        // Generate JWT token
         String token = jwtUtils.generateToken(user);
-
-        // Debug print
-        System.out.println("JWT token generated: " + token);
 
         return ResponseEntity.ok(token);
     }
 
     @PostMapping("/public/login")
     public ResponseEntity<?> loginUser(@Valid @RequestBody AuthRequest authRequest) {
-        // Debug print
-        System.out.println("Received login request: " + authRequest);
-
         try {
             // Authenticate the user
             Authentication authentication = authenticationManager.authenticate(
@@ -112,24 +86,13 @@ public class AuthController {
             // Update the SecurityContext with the authenticated user
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            // Generate JWT token
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            String token = jwtUtils.generateToken(userDetails); // Corrected: use userDetails
-
-            // Debug print
-            System.out.println("JWT token generated for user: " + userDetails.getUsername());
+            String token = jwtUtils.generateToken(userDetails);
 
             return ResponseEntity.ok(token);
         } catch (AuthenticationException e) {
-            // Debug print
-            System.out.println("Authentication failed: " + e.getMessage());
 
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
         }
     }
-
-    /*@GetMapping("/me")
-    public ResponseEntity<String> me() {
-
-    }*/
 }
