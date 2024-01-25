@@ -1,2 +1,17 @@
 <app-header></app-header>
-<p>login works!</p>
+
+<mat-card class="page-content-custom">
+  <form>
+    <mat-form-field>
+      <mat-label>Email or Username</mat-label>
+      <input [(ngModel)]="loginIdentifier" matInput placeholder="Enter your email or username">
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Password</mat-label>
+      <input [(ngModel)]="password" matInput placeholder="Enter your password" type="password">
+    </mat-form-field>
+
+    <button (click)="login()" color="primary" mat-raised-button>Login</button>
+  </form>
+</mat-card>

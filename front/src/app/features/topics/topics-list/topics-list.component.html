@@ -1,2 +1,17 @@
 <app-header></app-header>
-<p>topics-list works!</p>
+
+<mat-card class="page-content-custom">
+  <mat-card-content>
+    <mat-grid-list [cols]="isSmallScreen ? 1 : 2" gutterSize="16px">
+      <mat-grid-tile *ngFor="let topic of topics">
+        <mat-card>
+          <mat-card-title>{{ topic.name }}</mat-card-title>
+          <mat-card-subtitle>{{ topic.description }}</mat-card-subtitle>
+          <mat-card-actions>
+            <button color="primary" mat-button>Subscribe</button>
+          </mat-card-actions>
+        </mat-card>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </mat-card-content>
+</mat-card>

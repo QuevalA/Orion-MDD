@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
 
 @Component({
   selector: 'app-user-detail',
@@ -7,9 +8,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserDetailComponent implements OnInit {
 
-  constructor() { }
+  // Placeholder data for subscribed topics
+  subscribedTopics: any[] = [
+    {name: 'Technology', description: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit'},
+    {name: 'Programming', description: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit'},
+    {name: 'Cyber security', description: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit'},
+  ];
+
+  isSmallScreen: boolean | undefined;
+
+  constructor(private breakpointObserver: BreakpointObserver) {
+    this.breakpointObserver.observe([Breakpoints.Small, Breakpoints.XSmall]).subscribe(result => {
+      this.isSmallScreen = result.matches;
+    });
+  }
 
   ngOnInit(): void {
   }
-
 }

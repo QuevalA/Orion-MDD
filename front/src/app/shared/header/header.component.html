@@ -1,7 +1,13 @@
-<img alt="logo" src="/assets/logo_p6.png"/>
+<header>
+  <img alt="logo" src="/assets/logo_p6.png"/>
 
-<ng-container *ngIf="showHeaderButtons">
-  <button color="primary" mat-raised-button routerLink="/posts">Articles</button>
-  <button color="primary" mat-raised-button routerLink="/topics">Thèmes</button>
-  <button color="primary" mat-raised-button routerLink="/user">Profile</button>
-</ng-container>
+  <ng-container *ngIf="showHeaderButtons">
+    <div class="header-buttons">
+      <a routerLink="/posts">Articles</a>
+      <a routerLink="/topics">Thèmes</a>
+      <button color="primary" mat-fab routerLink="/user">
+        <mat-icon>person_outline</mat-icon>
+      </button>
+    </div>
+  </ng-container>
+</header>

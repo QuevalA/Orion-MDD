@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './pages/home/home.component';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {HomeComponent} from './pages/home/home.component';
 import {TopicsListComponent} from "./features/topics/topics-list/topics-list.component";
 import {PostsListComponent} from "./features/posts/posts-list/posts-list.component";
 import {UserDetailComponent} from "./features/user/user-detail/user-detail.component";
@@ -12,10 +12,12 @@ import {NotFoundComponent} from "./pages/not-found/not-found.component";
 
 // consider a guard combined with canLoad / canActivate route option
 // to manage unauthenticated user to access private routes
+
+//ToDo: edit "posts/detail" route to "posts/:id" once ready to handle dynamic data
 const routes: Routes = [
   {
-  path: '',
-  component: HomeComponent
+    path: '',
+    component: HomeComponent
   },
   {
     path: 'register',
@@ -34,12 +36,12 @@ const routes: Routes = [
     component: PostsListComponent
   },
   {
-    path: 'posts/:id',
-    component: PostDetailComponent
-  },
-  {
     path: 'posts/create',
     component: PostCreationComponent
+  },
+  {
+    path: 'posts/detail',
+    component: PostDetailComponent
   },
   {
     path: 'user',
@@ -55,4 +57,5 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule {
+}

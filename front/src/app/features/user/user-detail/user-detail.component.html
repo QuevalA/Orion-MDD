@@ -1,2 +1,33 @@
 <app-header></app-header>
-<p>user-detail works!</p>
+
+<mat-card class="page-content-custom">
+  <mat-card-content>
+    <h2>User Profile</h2>
+
+    <form>
+      <mat-form-field>
+        <input matInput placeholder="Username">
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Email">
+      </mat-form-field>
+      <button color="primary" mat-raised-button type="submit">Update Profile</button>
+    </form>
+
+    <button color="warn" mat-raised-button>Logout</button>
+    <hr>
+    <h2>Subscriptions</h2>
+
+    <mat-grid-list [cols]="isSmallScreen ? 1 : 2" gutterSize="16px">
+      <mat-grid-tile *ngFor="let subscribedTopic of subscribedTopics">
+        <mat-card>
+          <mat-card-title>{{ subscribedTopic.name }}</mat-card-title>
+          <mat-card-subtitle>{{ subscribedTopic.description }}</mat-card-subtitle>
+          <mat-card-actions>
+            <button color="warn" mat-button>Unsubscribe</button>
+          </mat-card-actions>
+        </mat-card>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </mat-card-content>
+</mat-card>
