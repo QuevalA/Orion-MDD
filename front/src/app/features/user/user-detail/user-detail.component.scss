@@ -1,1 +1,45 @@
+h2 {
+  font-weight: bold;
+}
 
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 10vw;
+}
+
+.mat-form-field {
+  border-radius: 10px;
+  border: 2px solid #7763C5;
+  padding: 10px;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.save-button {
+  margin-bottom: 20px;
+}
+
+.save-button,
+.unsubscribe-button {
+  color: white;
+  background-color: #7763C5;
+  border-radius: 8px;
+  padding: 0 40px;
+}
+
+.logout-button {
+  background-color: white;
+  color: red;
+  box-shadow: none;
+}
+
+.mat-grid-tile mat-card {
+  background-color: lightgray;
+}
+
+.mat-card-title,
+.mat-card-subtitle {
+  text-align: left;
+}

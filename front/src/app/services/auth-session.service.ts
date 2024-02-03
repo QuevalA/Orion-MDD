@@ -14,11 +14,9 @@ export class AuthSessionService {
     const token = localStorage.getItem('token');
 
     if (!token) {
-      console.log('[CUSTOM LOG] no token found by getToken(), redirecting to Login page...');
       this.router.navigate(['/login']);
     }
 
-    console.log('[CUSTOM LOG] token returned by getToken(): ', token);
     return token;
   }
 
@@ -45,7 +43,6 @@ export class AuthSessionService {
         tokenExpirationAt: payloadObj.exp
       };
 
-      console.log('[CUSTOM LOG] AuthSession object returned by isValidToken(): ', authSession);
       return authSession;
 
     } catch (error) {

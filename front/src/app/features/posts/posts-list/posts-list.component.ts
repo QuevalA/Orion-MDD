@@ -29,12 +29,10 @@ export class PostsListComponent implements OnInit {
   }
 
   createPost() {
-    console.log('Navigating to create post page...');
     this.router.navigate(['/posts/create']);
   }
 
   sortPosts() {
-    console.log('[SORTING LOG] Sorting by:', this.sortByOption);
 
     if (this.sortByOption === 'date') {
       this.blogPosts.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
@@ -44,13 +42,11 @@ export class PostsListComponent implements OnInit {
       this.blogPosts.sort((a, b) => a.postAuthorUsername.localeCompare(b.postAuthorUsername));
     }
 
-    console.log('[SORTING LOG] Sorted posts:', this.blogPosts);
   }
 
   fetchPosts() {
     this.postsService.getPostsBySubscriptions().subscribe(
       (posts: any[]) => {
-        console.log('[SORTING LOG] Received posts:', posts);
         this.blogPosts = posts;
         this.sortPosts();
       },

@@ -7,9 +7,9 @@
           <mat-card-subtitle>Description: {{ topic.description | slice:0:50 }}...</mat-card-subtitle>
           <mat-card-actions>
             <button (click)="subscribeToTopic(topic.id)" *ngIf="!topic.subscribed" mat-button>
-              Subscribe
+              S'abonner
             </button>
-            <button *ngIf="topic.subscribed" [disabled]="true" mat-button>Subscribed</button>
+            <button *ngIf="topic.subscribed" [disabled]="true" mat-button>Abonné</button>
           </mat-card-actions>
         </mat-card>
       </mat-grid-tile>

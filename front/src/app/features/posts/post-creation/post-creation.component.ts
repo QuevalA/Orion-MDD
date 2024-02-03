@@ -39,7 +39,6 @@ export class PostCreationComponent implements OnInit {
 
         this.postsService.createPost(newPostData).subscribe(
           (response) => {
-            console.log('Post created:', response);
             // Redirect to post detail page
             this.router.navigate(['/posts/', response.id]);
           },

@@ -2,7 +2,6 @@
 
 html, body {
   height: 100%;
-  background-color: gold;
 }
 
 mat-sidenav-content {
@@ -14,28 +13,37 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-.app-container {
-  min-height: 100vh;
-  max-width: 1000px;
-  margin: 0 auto;
+.page-content-custom {
+  text-align: center;
+  margin: 0 25vw;
+}
 
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+@media only screen and (max-width: 1200px) {
+  .page-content-custom {
+    margin: 0 20vw;
+  }
+}
+
+@media only screen and (max-width: 992px) {
+  .page-content-custom {
+    margin: 0 15vw;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .page-content-custom {
+    margin: 0 10vw;
+  }
+}
+
+@media only screen and (max-width: 576px) {
+  .page-content-custom {
+    margin: 0 5vw;
+  }
 }
 
 .mat-card {
   box-shadow: none !important;
-}
-
-.page-content-custom {
-  text-align: center;
-}
-
-@media (min-width: 1200px) {
-  .page-content-custom {
-    margin: 2vw 20vw;
-  }
 }
 
 /* Remove the underline from mat-form-field */

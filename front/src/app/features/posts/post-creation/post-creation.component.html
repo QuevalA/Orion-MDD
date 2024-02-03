@@ -1,41 +1,38 @@
+<button (click)="goBack()" mat-icon-button>
+  <mat-icon>arrow_back</mat-icon>
+</button>
+
 <mat-card class="page-content-custom">
-  <mat-card-header>
-    <button (click)="goBack()" mat-icon-button>
-      <mat-icon>arrow_back</mat-icon>
-    </button>
-    <mat-card-title>Create a new post</mat-card-title>
-  </mat-card-header>
+  <h2>Créer un nouvel article</h2>
 
   <mat-card-content>
     <form #postForm="ngForm" (ngSubmit)="submitForm()">
-
       <mat-form-field>
-        <mat-label>Select a Topic</mat-label>
+        <mat-label>Sélectionnez un thème</mat-label>
         <mat-select [(ngModel)]="selectedTopic" [required]="true" name="selectedTopic">
           <mat-option *ngFor="let topic of topics" [value]="topic.name">{{ topic.name }}</mat-option>
         </mat-select>
         <mat-error *ngIf="postForm.controls['selectedTopic'].hasError('required')">
-          Topic is required
+          Veuillez sélectionner un thème
         </mat-error>
       </mat-form-field>
 
       <mat-form-field>
-        <input [(ngModel)]="newPostTitle" matInput name="newPostTitle" placeholder="Post Title" required>
+        <input [(ngModel)]="newPostTitle" matInput name="newPostTitle" placeholder="Titre de l'article" required>
         <mat-error *ngIf="postForm.controls['newPostTitle'].hasError('required')">
-          Post Title is required
+          Veuillez indiquer un titre
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field>
-        <textarea [(ngModel)]="newPostContent" matInput name="newPostContent" placeholder="Post Content"
+      <mat-form-field class="form-field-text-area">
+        <textarea [(ngModel)]="newPostContent" matInput name="newPostContent" placeholder="Contenu de l'article"
                   required></textarea>
         <mat-error *ngIf="postForm.controls['newPostContent'].hasError('required')">
-          Post Content is required
+          Veuillez insérer du contenu
         </mat-error>
       </mat-form-field>
 
-      <!--<button [disabled]="postForm.invalid" color="primary" mat-raised-button type="submit">Submit</button>-->
-      <button color="primary" mat-raised-button type="submit">Submit</button>
+      <button class="create-button" mat-raised-button type="submit">Créer</button>
     </form>
   </mat-card-content>
 </mat-card>

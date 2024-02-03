@@ -34,7 +34,6 @@ export class PostDetailComponent implements OnInit {
   fetchPostDetails(postId: string): void {
     this.postsService.getPostById(postId).subscribe(
       (postDetails: any) => {
-        console.log('fetchPostDetails() result: ', postDetails);
         this.post = postDetails;
         this.comments = postDetails.comments;
       },

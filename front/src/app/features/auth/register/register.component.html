@@ -1,12 +1,14 @@
-<img alt="logo" src="/assets/logo_p6.png"/>
-<hr/>
+<div class="header-content">
+  <img alt="logo" class="desktop-logo" src="/assets/logo_p6.png"/>
+  <hr/>
+</div>
+
+<button (click)="goBack()" class="back-button" mat-icon-button>
+  <mat-icon>arrow_back</mat-icon>
+</button>
 
 <mat-card class="page-content-custom">
-  <mat-card-header>
-    <button (click)="goBack()" mat-icon-button>
-      <mat-icon>arrow_back</mat-icon>
-    </button>
-  </mat-card-header>
+  <img alt="logo" class="mobile-logo" src="/assets/logo_p6.png"/>
 
   <h2>Inscription</h2>
 
@@ -26,6 +28,6 @@
       <input matInput type="password">
     </mat-form-field>
 
-    <button mat-button type="submit">S'inscrire</button>
+    <button class="submit-button" mat-button type="submit">S'inscrire</button>
   </form>
 </mat-card>

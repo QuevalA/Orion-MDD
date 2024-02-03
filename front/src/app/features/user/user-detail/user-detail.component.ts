@@ -69,7 +69,6 @@ export class UserDetailComponent implements OnInit {
   unsubscribeFromTopic(topicId: number): void {
     this.userService.unsubscribeFromTopic(topicId).subscribe(
       () => {
-        console.log('Unsubscribed successfully');
         if (this.user.subscribedTopics) {
           // Filter out the unsubscribed topic and create a new array
           this.user.subscribedTopics = this.user.subscribedTopics.filter((topic: Topic) => topic.id !== topicId);
@@ -88,7 +87,6 @@ export class UserDetailComponent implements OnInit {
   logout(): void {
     this.authService.logout().subscribe(
       () => {
-        console.log('Logged out successfully');
         this.router.navigate(['/']);
       },
       (error) => {

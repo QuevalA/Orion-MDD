@@ -1,15 +1,16 @@
+mat-card {
+  height: 100%;
+  margin-top: 12vh;
+}
+
 img {
-  max-width: 50vw;
-  height: auto;
-  display: block;
-  margin: 0 auto;
+  max-width: 450px;
 }
 
 .button-container {
   display: flex;
   justify-content: space-between;
-  width: calc(30vw + 30px);
-  margin: 0 auto;
+  margin: 25px 8vw;
 }
 
 .button-container button {
@@ -19,10 +20,19 @@ img {
   margin: 0 25px;
 }
 
-.page-content-custom {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 80vh;
+@media only screen and (max-width: 768px) {
+  img {
+    max-width: 250px;
+  }
+
+  .button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 35px;
+  }
+
+  .button-container button {
+    width: 80%;
+  }
 }

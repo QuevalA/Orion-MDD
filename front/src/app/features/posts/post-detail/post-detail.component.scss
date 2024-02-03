@@ -3,10 +3,6 @@
   align-content: space-between;
 }
 
-.create-button {
-  color: #7763C5;
-}
-
 .post-infos {
   display: flex;
   justify-content: flex-start;
@@ -15,4 +11,66 @@
 
 .post-infos span {
   margin-right: 20px;
+}
+
+.post-content {
+  text-align: left;
+}
+
+hr {
+  margin: 20px 0;
+}
+
+.title-comments {
+  text-align: left;
+}
+
+mat-list-item {
+  width: 100%;
+}
+
+.list-comment-card {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding-right: 25px;
+}
+
+// Comment author names
+h4 {
+  margin-right: 25px;
+}
+
+.list-comment-content {
+  background-color: lightgray;
+  border-radius: 10px;
+  padding: 10px;
+  flex: 1;
+}
+
+.create-comment-area {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.text-area-form-field {
+  border-radius: 10px;
+  border: 1px solid black;
+  padding: 10px;
+  flex: 1;
+}
+
+.create-button {
+  color: #7763C5;
+}
+
+@media (min-width: 600px) {
+  .create-button mat-icon {
+    width: 80px;
+    height: 80px;
+    font-size: 40px;
+    line-height: 50px;
+  }
 }

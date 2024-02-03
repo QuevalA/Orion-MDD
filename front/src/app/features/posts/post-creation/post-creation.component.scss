@@ -1,0 +1,29 @@
+h2 {
+  font-weight: bold;
+}
+
+.mat-card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 10vw;
+}
+
+.mat-form-field {
+  border-radius: 10px;
+  border: 2px solid #7763C5;
+  padding: 10px;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.form-field-text-area {
+  height: 200px;
+}
+
+.create-button {
+  color: white;
+  background-color: #7763C5;
+  border-radius: 8px;
+  padding: 0 40px;
+}

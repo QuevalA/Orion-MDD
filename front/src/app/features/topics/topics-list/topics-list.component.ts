@@ -33,7 +33,6 @@ export class TopicsListComponent implements OnInit {
   subscribeToTopic(topicId: number): void {
     this.userService.subscribeToTopic(topicId).subscribe(
       () => {
-        console.log('Subscribed successfully');
         // Update button text immediately after successful subscription
         const topicIndex = this.topics.findIndex(topic => topic.id === topicId);
         if (topicIndex !== -1) {

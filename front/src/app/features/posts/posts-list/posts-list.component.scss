@@ -1,19 +1,17 @@
-@media (min-width: 1200px) {
-  .page-content-custom {
-    margin: 0 15vw;
-  }
+mat-grid-tile {
+  border-radius: 8px;
 }
-
-/*.mat-grid-tile {
-  padding-bottom: 5px;
-}*/
 
 a {
   text-decoration: none;
+  width: 100%;
+  height: 200px;
+  //border-radius: 8px;
 }
 
 .list-card {
   background-color: lightgray;
+  height: 200px;
 }
 
 .mat-card-title,
@@ -24,12 +22,12 @@ mat-card-subtitle,
 
 mat-card-title {
   font-size: 18px;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 mat-card-subtitle {
-  margin-right: 80px;
-  margin-bottom: 0;
+  margin-right: 100px;
+  margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
 }

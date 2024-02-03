@@ -1,33 +1,61 @@
 form {
   display: flex;
   flex-direction: column;
-  align-items: center;
+}
+
+.back-button {
+  margin-left: 15px;
 }
 
 mat-form-field {
-  width: 300px; /* Adjust the width as needed */
-  margin-bottom: 20px; /* Add space between form fields */
+  margin-bottom: 20px;
+  margin-left: 10vw;
+  margin-right: 10vw;
+}
+
+.desktop-logo {
+  max-width: 125px;
 }
 
 mat-form-field .mat-form-field-label {
-  color: black; /* Set label color to black */
+  color: black;
 }
 
 mat-form-field .mat-input-element {
-  border: 1px solid black; /* Add a full border to input elements */
+  border: 1px solid black;
   border-radius: 10px;
   height: 40px;
 }
 
 button.mat-raised-button {
-  background-color: #7763C5; /* Purple background */
-  color: white; /* White text color */
-  border: none; /* Remove button border */
-  padding: 1px 25px; /* Add padding to the button */
-  cursor: pointer; /* Show pointer on hover */
+  background-color: #7763C5;
+  color: white;
+  padding: 1px 25px;
   border-radius: 8px;
+  width: 200px;
+  align-self: center;
 }
 
-img {
-  max-width: 125px;
+@media only screen and (max-width: 768px) {
+  .header-content {
+    display: none;
+  }
+
+  .mobile-logo {
+    max-width: 80vw;
+  }
+
+  button.mat-raised-button {
+    background-color: #7763C5;
+    color: white;
+    padding: 1px 25px;
+    border-radius: 8px;
+    margin: 0 10vw;
+  }
+}
+
+@media only screen and (min-width: 769px) {
+  .mobile-logo {
+    display: none;
+  }
 }

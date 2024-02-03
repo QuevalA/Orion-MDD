@@ -1,6 +1,6 @@
 <mat-card class="page-content-custom">
   <mat-card-content>
-    <h2>User Profile</h2>
+    <h2>Profile utilisateur</h2>
 
     <form>
       <mat-form-field>
@@ -9,20 +9,22 @@
       <mat-form-field>
         <input matInput placeholder="Email">
       </mat-form-field>
-      <button color="primary" mat-raised-button type="submit">Update Profile</button>
+      <button class="save-button" mat-raised-button type="submit">Sauvegarder</button>
     </form>
 
-    <button (click)="logout()" color="warn" mat-raised-button>Logout</button>
+    <button (click)="logout()" class="logout-button" mat-raised-button>Se déconnecter</button>
     <hr>
-    <h2 *ngIf="hasSubscribedTopics()">Subscriptions</h2>
+    <h2 *ngIf="hasSubscribedTopics()">Abonnements</h2>
 
-    <mat-grid-list *ngIf="hasSubscribedTopics()" [cols]="isSmallScreen ? 1 : 2" gutterSize="16px">
+    <mat-grid-list *ngIf="hasSubscribedTopics()" [cols]="isSmallScreen ? 1 : 2" gutterSize="16px" rowHeight="180px">
       <mat-grid-tile *ngFor="let subscribedTopic of user.subscribedTopics; trackBy: trackByTopicId">
         <mat-card>
           <mat-card-title>{{ subscribedTopic.name }}</mat-card-title>
           <mat-card-subtitle>{{ subscribedTopic.description }}</mat-card-subtitle>
           <mat-card-actions>
-            <button (click)="unsubscribeFromTopic(subscribedTopic.id)" color="warn" mat-button>Unsubscribe</button>
+            <button (click)="unsubscribeFromTopic(subscribedTopic.id)" class="unsubscribe-button" mat-button>Se
+              désabonner
+            </button>
           </mat-card-actions>
         </mat-card>
       </mat-grid-tile>
