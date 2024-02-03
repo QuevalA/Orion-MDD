@@ -1,6 +1,7 @@
 package com.openclassrooms.mddapi.service;
 
 import com.openclassrooms.mddapi.dto.UserDTO;
+import com.openclassrooms.mddapi.dto.UserUpdateDTO;
 import com.openclassrooms.mddapi.model.Topic;
 import com.openclassrooms.mddapi.model.Post;
 import com.openclassrooms.mddapi.model.Comment;
@@ -9,17 +10,21 @@ import com.openclassrooms.mddapi.repository.CommentRepository;
 import com.openclassrooms.mddapi.repository.PostRepository;
 import com.openclassrooms.mddapi.repository.TopicRepository;
 import com.openclassrooms.mddapi.repository.UserRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 @Service
 public class UserService implements IUserService {
 
     private final UserRepository userRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
     private TopicRepository topicRepository;
     private PostRepository postRepository;
     private CommentRepository commentRepository;
@@ -27,12 +32,14 @@ public class UserService implements IUserService {
     public UserService(UserRepository userRepository,
                        TopicRepository topicRepository,
                        PostRepository postRepository,
-                       CommentRepository commentRepository) {
+                       CommentRepository commentRepository,
+                       BCryptPasswordEncoder passwordEncoder) {
 
         this.userRepository = userRepository;
         this.topicRepository = topicRepository;
         this.postRepository = postRepository;
         this.commentRepository = commentRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -92,7 +99,44 @@ public class UserService implements IUserService {
         return false;
     }
 
-    UserDTO convertUserEntityToDto(User user){
+    public UserUpdateDTO updateUserCredentials(Long userId, String emailOrUsername, String password) {
+        // Retrieve the user entity from the database
+        User user = userRepository.findById(userId).orElse(null);
+
+        if (user != null) {
+            if (emailOrUsername != null && !emailOrUsername.isEmpty()) {
+                // Check if the provided value is an email
+                if (isValidEmail(emailOrUsername)) {
+                    user.setEmail(emailOrUsername);
+                } else {
+                    user.setUsername(emailOrUsername);
+                }
+            }
+
+            if (password != null && !password.isEmpty()) {
+                user.setPassword(passwordEncoder.encode(password));
+            }
+
+            user = userRepository.save(user);
+
+            return convertUserEntityToUpdateDto(user);
+        } else {
+            throw new RuntimeException("User not found with ID: " + userId);
+        }
+    }
+
+    private boolean isValidEmail(String input) {
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+
+        Pattern pattern = Pattern.compile(emailRegex);
+
+        Matcher matcher = pattern.matcher(input);
+
+        // Return true if the email matches the pattern, false otherwise
+        return matcher.matches();
+    }
+
+    UserDTO convertUserEntityToDto(User user) {
         UserDTO userDTO = new UserDTO();
 
         userDTO.setId(user.getId());
@@ -112,6 +156,16 @@ public class UserService implements IUserService {
                 .collect(Collectors.toSet()));
 
         return userDTO;
+    }
+
+    public UserUpdateDTO convertUserEntityToUpdateDto(User user) {
+        UserUpdateDTO userUpdateDTO = new UserUpdateDTO();
+
+        userUpdateDTO.setId(user.getId());
+        userUpdateDTO.setEmail(user.getEmail());
+        userUpdateDTO.setUsername(user.getUsername());
+
+        return userUpdateDTO;
     }
 
     public User convertUserDTOToEntity(UserDTO userDTO) {

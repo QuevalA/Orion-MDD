@@ -1,9 +1,12 @@
 package com.openclassrooms.mddapi.controller;
 
 import com.openclassrooms.mddapi.dto.UserDTO;
+import com.openclassrooms.mddapi.dto.UserUpdateDTO;
 import com.openclassrooms.mddapi.service.IUserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/users")
@@ -41,6 +44,20 @@ public class UserController {
     public ResponseEntity<String> unsubscribeFromTopic(@PathVariable Long userId, @PathVariable Long topicId) {
         if (userService.unsubscribeFromTopic(userId, topicId)) {
             return ResponseEntity.ok("Unsubscribed successfully.");
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateUser(@PathVariable Long id, @RequestBody Map<String, String> requestBody) {
+        String emailOrUsername = requestBody.get("email-or-username");
+        String password = requestBody.get("password");
+
+        UserUpdateDTO updatedUser = userService.updateUserCredentials(id, emailOrUsername, password);
+
+        if (updatedUser != null) {
+            return ResponseEntity.ok("User credentials updated successfully.");
         } else {
             return ResponseEntity.notFound().build();
         }

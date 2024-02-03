@@ -1,38 +1,42 @@
-<app-header></app-header>
-
 <mat-card class="page-content-custom">
-  <mat-card-header>
+  <div class="top-content">
     <button (click)="goBack()" mat-icon-button>
       <mat-icon>arrow_back</mat-icon>
     </button>
-    <mat-card-title>{{ postTitle }}</mat-card-title>
-  </mat-card-header>
 
-  <mat-card-content>
-    <p>{{ postDate | date: 'mediumDate' }} by {{ postAuthor }} in {{ postTopic }}</p>
+    <h2>{{ post.title }}</h2>
+  </div>
+
+  <mat-card-content class="post-infos">
+    <!--<p>{{ post.createdAt | date: 'mediumDate' }} {{ post.postAuthorUsername }} {{ post.topicName }}</p>-->
+    <span>{{ post.createdAt | date: 'mediumDate' }}</span>
+    <span>{{ post.postAuthorUsername }}</span>
+    <span>{{ post.topicName }}</span>
   </mat-card-content>
 
   <mat-card-content>
-    <p>{{ postContent }}</p>
+    <p>{{ post.content }}</p>
   </mat-card-content>
 
-  <mat-divider></mat-divider>
+  <hr>
 
   <mat-card-content>
-    <h2>Comments</h2>
+    <h2>Commentaires</h2>
   </mat-card-content>
 
   <mat-list>
     <mat-list-item *ngFor="let comment of comments">
-      <h4 mat-line>{{ comment.username }}</h4>
-      <p mat-line>{{ comment.text }}</p>
+      <h4 mat-line>{{ comment.commentAuthorUsername }}</h4>
+      <p mat-line>{{ comment.content }}</p>
     </mat-list-item>
   </mat-list>
 
   <mat-card-content>
     <mat-form-field>
-      <textarea [(ngModel)]="newCommentText" matInput placeholder="Write a new comment"></textarea>
+      <textarea [(ngModel)]="newCommentText" matInput placeholder="Ecrivez ici votre commentaire"></textarea>
     </mat-form-field>
-    <button (click)="createComment()" color="primary" mat-raised-button>Create comment</button>
+    <button (click)="createComment()" class="create-button" mat-icon-button>
+      <mat-icon>send</mat-icon>
+    </button>
   </mat-card-content>
 </mat-card>

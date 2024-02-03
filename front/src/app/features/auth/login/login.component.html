@@ -1,17 +1,26 @@
-<app-header></app-header>
+<img alt="logo" src="/assets/logo_p6.png"/>
+<hr/>
 
 <mat-card class="page-content-custom">
+  <mat-card-header>
+    <button (click)="goBack()" mat-icon-button>
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+  </mat-card-header>
+
+  <h2>Se connecter</h2>
+
   <form>
-    <mat-form-field>
-      <mat-label>Email or Username</mat-label>
-      <input [(ngModel)]="loginIdentifier" matInput placeholder="Enter your email or username">
+    <mat-form-field floatLabel="always">
+      <mat-label>Email ou nom d'utilisateur</mat-label>
+      <input [(ngModel)]="loginIdentifier" matInput name="loginIdentifier">
     </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>Password</mat-label>
-      <input [(ngModel)]="password" matInput placeholder="Enter your password" type="password">
+    <mat-form-field floatLabel="always">
+      <mat-label>Mot de passe</mat-label>
+      <input [(ngModel)]="password" matInput name="password" type="password">
     </mat-form-field>
 
-    <button (click)="login()" color="primary" mat-raised-button>Login</button>
+    <button (click)="login()" mat-raised-button>Login</button>
   </form>
 </mat-card>

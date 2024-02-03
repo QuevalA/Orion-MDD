@@ -7,6 +7,9 @@ import com.openclassrooms.mddapi.dto.PostDTO;
 import com.openclassrooms.mddapi.model.Comment;
 import com.openclassrooms.mddapi.model.Post;
 import com.openclassrooms.mddapi.repository.CommentRepository;
+import com.openclassrooms.mddapi.security.services.UserDetailsImpl;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -49,8 +52,8 @@ public class CommentService implements ICommentService {
                 .map(this::convertCommentEntityToDto)
                 .collect(Collectors.toList());
     }
-    
-    private CommentDTO convertCommentEntityToDto(Comment comment){
+
+    private CommentDTO convertCommentEntityToDto(Comment comment) {
         CommentDTO commentDTO = new CommentDTO();
 
         commentDTO.setId(comment.getId());
@@ -59,17 +62,26 @@ public class CommentService implements ICommentService {
         commentDTO.setCommentAuthor(comment.getCommentAuthor() != null ? comment.getCommentAuthor().getId() : null);
         commentDTO.setPost(comment.getPost() != null ? comment.getPost().getId() : null);
 
+        if (comment.getCommentAuthor() != null) {
+            commentDTO.setCommentAuthorUsername(comment.getCommentAuthor().getUsername());
+        }
+
         return commentDTO;
     }
 
     private Comment convertCreateCommentDTOToEntity(CreateCommentDTO createCommentDTO) {
         Comment comment = new Comment();
 
+        //Retrieve authenticated User
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        Long userId = userDetails.getId();
+
         comment.setContent(createCommentDTO.getContent());
         comment.setCreatedAt(LocalDateTime.now());
         comment.setPost(postService.getPostEntityById(createCommentDTO.getPostId()));
-        //Fixed User id 1 until security implementation
-        comment.setCommentAuthor(userService.getUserEntityById(1L));
+
+        comment.setCommentAuthor(userService.getUserEntityById(userId));
 
         return comment;
     }

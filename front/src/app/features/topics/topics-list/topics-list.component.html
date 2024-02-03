@@ -1,14 +1,15 @@
-<app-header></app-header>
-
 <mat-card class="page-content-custom">
   <mat-card-content>
-    <mat-grid-list [cols]="isSmallScreen ? 1 : 2" gutterSize="16px">
+    <mat-grid-list [cols]="isSmallScreen ? 1 : 2" gutterSize="10px" rowHeight="150px">
       <mat-grid-tile *ngFor="let topic of topics">
-        <mat-card>
+        <mat-card class="list-card">
           <mat-card-title>{{ topic.name }}</mat-card-title>
-          <mat-card-subtitle>{{ topic.description }}</mat-card-subtitle>
+          <mat-card-subtitle>Description: {{ topic.description | slice:0:50 }}...</mat-card-subtitle>
           <mat-card-actions>
-            <button color="primary" mat-button>Subscribe</button>
+            <button (click)="subscribeToTopic(topic.id)" *ngIf="!topic.subscribed" mat-button>
+              Subscribe
+            </button>
+            <button *ngIf="topic.subscribed" [disabled]="true" mat-button>Subscribed</button>
           </mat-card-actions>
         </mat-card>
       </mat-grid-tile>

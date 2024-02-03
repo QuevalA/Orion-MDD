@@ -1,3 +1,4 @@
-<div class="app-container">
+<app-main-nav *ngIf="!showMainNav">
   <router-outlet></router-outlet>
-</div>
+</app-main-nav>
+<router-outlet *ngIf="showMainNav"></router-outlet>

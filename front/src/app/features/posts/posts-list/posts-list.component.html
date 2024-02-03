@@ -1,28 +1,28 @@
-<app-header></app-header>
-
 <mat-card class="page-content-custom">
-  <button (click)="createPost()" color="primary" mat-raised-button>Create post</button>
+  <div class="top-content">
+    <button (click)="createPost()" mat-raised-button>Créer un article</button>
 
-  <mat-form-field>
-    <mat-label>Sort by</mat-label>
-    <mat-select (change)="sortPosts()" [(value)]="sortByOption">
-      <mat-option value="date">Date</mat-option>
-      <mat-option value="author">Author</mat-option>
-    </mat-select>
-  </mat-form-field>
+    <mat-form-field>
+      <mat-label>Trier par</mat-label>
+      <mat-select (selectionChange)="sortPosts()" [(value)]="sortByOption">
+        <mat-option value="title">Titre</mat-option>
+        <mat-option value="date">Date</mat-option>
+        <mat-option value="author">Autheur</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
 
-  <mat-grid-list [cols]="isSmallScreen ? 1 : 2" gutterSize="16px">
+  <mat-grid-list [cols]="isSmallScreen ? 1 : 2" gutterSize="20px" rowHeight="180px">
     <mat-grid-tile *ngFor="let post of blogPosts">
-      <!--<a [routerLink]="['/post', post.id]">-->
-      <a routerLink="/posts/detail">
-        <mat-card>
+      <a [routerLink]="'/posts/' + post.id">
+        <mat-card class="list-card">
           <mat-card-title>{{ post.title }}</mat-card-title>
           <mat-card-subtitle>
-            {{ post.date | date: 'mediumDate' }} by {{ post.author }}
+            <span class="subtitle-date">{{ post.createdAt | date: 'mediumDate' }}</span>
+            <span class="subtitle-author">{{ post.postAuthorUsername }}</span>
           </mat-card-subtitle>
           <mat-card-content>
-            {{ post.content | slice:0:300 }}
-            <span *ngIf="post.content.length > 300">...</span>
+            {{ post.content | slice:0:150 }}...
           </mat-card-content>
         </mat-card>
       </a>

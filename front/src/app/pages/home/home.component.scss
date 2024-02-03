@@ -1,0 +1,28 @@
+img {
+  max-width: 50vw;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  width: calc(30vw + 30px);
+  margin: 0 auto;
+}
+
+.button-container button {
+  flex: 1;
+  border: 2px solid gray;
+  border-radius: 10px;
+  margin: 0 25px;
+}
+
+.page-content-custom {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+}

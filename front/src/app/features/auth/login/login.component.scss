@@ -1,0 +1,33 @@
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+mat-form-field {
+  width: 300px; /* Adjust the width as needed */
+  margin-bottom: 20px; /* Add space between form fields */
+}
+
+mat-form-field .mat-form-field-label {
+  color: black; /* Set label color to black */
+}
+
+mat-form-field .mat-input-element {
+  border: 1px solid black; /* Add a full border to input elements */
+  border-radius: 10px;
+  height: 40px;
+}
+
+button.mat-raised-button {
+  background-color: #7763C5; /* Purple background */
+  color: white; /* White text color */
+  border: none; /* Remove button border */
+  padding: 1px 25px; /* Add padding to the button */
+  cursor: pointer; /* Show pointer on hover */
+  border-radius: 8px;
+}
+
+img {
+  max-width: 125px;
+}

@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
-import {NgForm} from "@angular/forms";
+import {PostsService} from "../../../services/posts.service";
+import {TopicsService} from "../../../services/topics.service";
+import {Topic} from "../../../interfaces/topic";
 
 @Component({
   selector: 'app-post-creation',
@@ -9,13 +11,16 @@ import {NgForm} from "@angular/forms";
 })
 export class PostCreationComponent implements OnInit {
 
-  // Placeholder
-  topics: string[] = ['Technology', 'Science', 'Programming', 'Miscellaneous'];
+  topics: Topic[] = [];
   selectedTopic: string = '';
   newPostTitle: string = '';
   newPostContent: string = '';
 
-  constructor(private router: Router) {
+  constructor(
+    private router: Router,
+    private postsService: PostsService,
+    private topicsService: TopicsService
+  ) {
   }
 
   goBack(): void {
@@ -23,17 +28,45 @@ export class PostCreationComponent implements OnInit {
   }
 
   submitForm(): void {
-    if (this.selectedTopic && this.newPostTitle && this.newPostContent) {
-      // Placeholder to display the form values in the console
-      console.log('Selected Topic:', this.selectedTopic);
-      console.log('New Post Title:', this.newPostTitle);
-      console.log('New Post Content:', this.newPostContent);
+    if (this.selectedTopic && this.topics) {
+      const selectedTopic = this.topics.find(topic => topic.name === this.selectedTopic);
+      if (selectedTopic) {
+        const newPostData = {
+          title: this.newPostTitle,
+          content: this.newPostContent,
+          topicId: selectedTopic.id
+        };
 
-      // Placeholder to redirect to post detail page
-      this.router.navigate(['/posts/detail']);
+        this.postsService.createPost(newPostData).subscribe(
+          (response) => {
+            console.log('Post created:', response);
+            // Redirect to post detail page
+            this.router.navigate(['/posts/', response.id]);
+          },
+          (error) => {
+            console.error('Error creating post:', error);
+          }
+        );
+      } else {
+        console.error('Selected topic not found.');
+      }
+    } else {
+      console.error('Selected topic or topics list is undefined.');
     }
   }
 
   ngOnInit(): void {
+    this.loadTopics();
+  }
+
+  loadTopics(): void {
+    this.topicsService.getAllTopics().subscribe(
+      (topics: Topic[]) => {
+        this.topics = topics;
+      },
+      (error) => {
+        console.error('Error fetching topics:', error);
+      }
+    );
   }
 }

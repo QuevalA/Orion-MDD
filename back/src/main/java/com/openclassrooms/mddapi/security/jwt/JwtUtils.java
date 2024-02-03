@@ -20,7 +20,7 @@ public class JwtUtils {
         UserDetailsImpl userDetailsImpl = (UserDetailsImpl) userDetails;
 
         return Jwts.builder()
-                .setSubject(userDetails.getUsername())
+                .setSubject(userDetailsImpl.getEmail())
                 .claim("userId", userDetailsImpl.getId())
                 .claim("username", userDetailsImpl.getUsername())
                 .setIssuedAt(new Date())
@@ -34,7 +34,6 @@ public class JwtUtils {
             Jwts.parser().setSigningKey(SECRET_KEY_BYTES).parseClaimsJws(token);
             return true;
         } catch (Exception e) {
-            // Log or handle exception
         }
         return false;
     }

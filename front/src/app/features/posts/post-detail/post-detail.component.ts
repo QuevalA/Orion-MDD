@@ -1,5 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
+import {PostsService} from "../../../services/posts.service";
+import {CommentsService} from "../../../services/comments.service";
+import {AuthSessionService} from "../../../services/auth-session.service";
 
 @Component({
   selector: 'app-post-detail',
@@ -8,27 +11,37 @@ import {ActivatedRoute, Router} from "@angular/router";
 })
 export class PostDetailComponent implements OnInit {
 
-// Placeholder data
-  postTitle: string = 'Sample Post Title';
-  postDate: Date = new Date('2022-01-01');
-  postAuthor: string = 'John Doe';
-  postTopic: string = 'Angular Material';
-  postContent: string = 'This is a sample post content. Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
-
-  // Placeholder comments data
-  comments: { username: string; text: string }[] = [
-    {username: 'User1', text: 'Great post!'},
-    {username: 'User2', text: 'Interesting insights.'},
-  ];
-
+  post: any = {};
+  comments: { commentAuthorUsername: string; content: string }[] = [];
   newCommentText: string = '';
 
-  constructor(private route: ActivatedRoute, private router: Router) {
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private postsService: PostsService,
+    private commentsService: CommentsService,
+    private authSessionService: AuthSessionService
+  ) {
   }
 
   ngOnInit(): void {
-    // Use ActivatedRoute to retrieve post ID from route parameters
-    // this.route.snapshot.params['id'];
+    this.route.params.subscribe(params => {
+      const postId = params['id'];
+      this.fetchPostDetails(postId);
+    });
+  }
+
+  fetchPostDetails(postId: string): void {
+    this.postsService.getPostById(postId).subscribe(
+      (postDetails: any) => {
+        console.log('fetchPostDetails() result: ', postDetails);
+        this.post = postDetails;
+        this.comments = postDetails.comments;
+      },
+      error => {
+        console.error('Error fetching post details:', error);
+      }
+    );
   }
 
   goBack(): void {
@@ -37,10 +50,33 @@ export class PostDetailComponent implements OnInit {
 
   createComment(): void {
     if (this.newCommentText.trim() !== '') {
-      this.comments.push({username: 'NewUser', text: this.newCommentText});
+      const postId = this.post.id; // Get the ID of the current post
+      const content = this.newCommentText; // Get the content of the new comment
 
-      // Clear input field
-      this.newCommentText = '';
+      // Call the createComment method from CommentsService
+      this.commentsService.createComment(postId, content).subscribe(
+        (newComment: any) => {
+          // Get authenticated user data from AuthSessionService
+          const authSession = this.authSessionService.getAuthenticatedUser();
+
+          // Ensure authSession is not null before accessing properties
+          if (authSession) {
+            // Update the comments array with the newly created comment and author information
+            this.comments.push({
+              commentAuthorUsername: authSession.userEmail,
+              content: newComment.content
+            });
+          } else {
+            console.error('Error: Authenticated user data is null.');
+          }
+
+          // Clear input field
+          this.newCommentText = '';
+        },
+        error => {
+          console.error('Error creating comment:', error);
+        }
+      );
     }
   }
 }

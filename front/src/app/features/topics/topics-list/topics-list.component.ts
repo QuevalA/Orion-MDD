@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
+import {TopicsService} from "../../../services/topics.service";
+import {UserService} from "../../../services/user.service";
 
 @Component({
   selector: 'app-topics-list',
@@ -8,25 +10,65 @@ import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
 })
 export class TopicsListComponent implements OnInit {
 
-  // Placeholder
-  topics: any[] = [
-    {name: 'Technology', description: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit'},
-    {name: 'Science', description: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit'},
-    {name: 'Programming', description: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit'},
-    {name: 'Hosting', description: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit'},
-    {name: 'Web', description: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit'},
-    {name: 'Dev ops', description: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit'},
-    {name: 'Cyber security', description: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit'},
-  ];
-
+  topics: any[] = [];
+  subscribedTopics: any[] = [];
   isSmallScreen: boolean | undefined;
 
-  constructor(private breakpointObserver: BreakpointObserver) {
-    this.breakpointObserver.observe([Breakpoints.Small, Breakpoints.XSmall]).subscribe(result => {
-      this.isSmallScreen = result.matches;
-    });
+  constructor(
+    private breakpointObserver: BreakpointObserver,
+    private topicsService: TopicsService,
+    private userService: UserService
+  ) {
+    this.breakpointObserver
+      .observe([Breakpoints.Small, Breakpoints.XSmall])
+      .subscribe((result) => {
+        this.isSmallScreen = result.matches;
+      });
   }
 
   ngOnInit(): void {
+    this.fetchTopicsAndSubscribedTopics();
+  }
+
+  subscribeToTopic(topicId: number): void {
+    this.userService.subscribeToTopic(topicId).subscribe(
+      () => {
+        console.log('Subscribed successfully');
+        // Update button text immediately after successful subscription
+        const topicIndex = this.topics.findIndex(topic => topic.id === topicId);
+        if (topicIndex !== -1) {
+          this.topics[topicIndex].subscribed = true;
+        }
+      },
+      (error) => {
+        console.error('(Component) Subscription failed:', error);
+      }
+    );
+  }
+
+  private fetchTopicsAndSubscribedTopics() {
+    this.topicsService.getAllTopics().subscribe(
+      (topicsData) => {
+        this.topics = topicsData;
+        // Fetch subscribed topics after getting all topics
+        this.topicsService.getSubscribedTopicsByUser().subscribe(
+          (subscribedTopicsData) => {
+            this.subscribedTopics = subscribedTopicsData;
+            // Mark subscribed topics in the topics list
+            this.topics.forEach(topic => {
+              if (this.subscribedTopics.find(subscribedTopic => subscribedTopic.id === topic.id)) {
+                topic.subscribed = true;
+              }
+            });
+          },
+          (subscribedTopicsError) => {
+            console.error('(Component) Error fetching subscribed topics:', subscribedTopicsError);
+          }
+        );
+      },
+      (topicsError) => {
+        console.error('(Component) Error fetching topics:', topicsError);
+      }
+    );
   }
 }

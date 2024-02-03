@@ -1,6 +1,5 @@
 package com.openclassrooms.mddapi.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -20,33 +19,33 @@ import java.util.List;
 @AllArgsConstructor
 public class Post {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="post_id")
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "post_id")
+    private Long id;
 
-	@Column(nullable = false)
-	@NotNull
-	@Size(max = 80)
-	private String title;
+    @Column(nullable = false)
+    @NotNull
+    @Size(max = 80)
+    private String title;
 
-	@Column(nullable = false, columnDefinition = "TEXT")
-	@NotNull
-	@Size(max = 10000)
-	private String content;
+    @Column(nullable = false, columnDefinition = "TEXT")
+    @NotNull
+    @Size(max = 10000)
+    private String content;
 
-	@CreatedDate
-	@Column(name = "created_at", updatable = false)
-	private LocalDateTime createdAt;
+    @CreatedDate
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
 
-	@ManyToOne
-	@JoinColumn(name = "topic_id", nullable = false)
-	private Topic topic;
+    @ManyToOne
+    @JoinColumn(name = "topic_id", nullable = false)
+    private Topic topic;
 
-	@ManyToOne
-	@JoinColumn(name = "user_id", nullable = false)
-	private User postAuthor;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User postAuthor;
 
-	@OneToMany(mappedBy = "post")
-	private List<Comment> comments = new ArrayList<>();
+    @OneToMany(mappedBy = "post")
+    private List<Comment> comments = new ArrayList<>();
 }

@@ -5,21 +5,22 @@ import com.openclassrooms.mddapi.payload.request.AuthRequest;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.stereotype.Component;
 
-import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 
+@Component
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
+    private final JwtUtils jwtUtils;
 
-    public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
-
+    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, JwtUtils jwtUtils) {
         this.authenticationManager = authenticationManager;
+        this.jwtUtils = jwtUtils;
         super.setAuthenticationManager(authenticationManager);
     }
 
@@ -39,12 +40,5 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-    }
-
-    @Override
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) {
-        UserDetails userDetails = (UserDetails) authResult.getPrincipal();
-        String token = JwtUtils.generateToken(userDetails);
-        response.addHeader("Authorization", "Bearer " + token);
     }
 }

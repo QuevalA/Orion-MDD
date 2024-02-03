@@ -1,5 +1,3 @@
-<app-header></app-header>
-
 <mat-card class="page-content-custom">
   <mat-card-content>
     <h2>User Profile</h2>
@@ -14,17 +12,17 @@
       <button color="primary" mat-raised-button type="submit">Update Profile</button>
     </form>
 
-    <button color="warn" mat-raised-button>Logout</button>
+    <button (click)="logout()" color="warn" mat-raised-button>Logout</button>
     <hr>
-    <h2>Subscriptions</h2>
+    <h2 *ngIf="hasSubscribedTopics()">Subscriptions</h2>
 
-    <mat-grid-list [cols]="isSmallScreen ? 1 : 2" gutterSize="16px">
-      <mat-grid-tile *ngFor="let subscribedTopic of subscribedTopics">
+    <mat-grid-list *ngIf="hasSubscribedTopics()" [cols]="isSmallScreen ? 1 : 2" gutterSize="16px">
+      <mat-grid-tile *ngFor="let subscribedTopic of user.subscribedTopics; trackBy: trackByTopicId">
         <mat-card>
           <mat-card-title>{{ subscribedTopic.name }}</mat-card-title>
           <mat-card-subtitle>{{ subscribedTopic.description }}</mat-card-subtitle>
           <mat-card-actions>
-            <button color="warn" mat-button>Unsubscribe</button>
+            <button (click)="unsubscribeFromTopic(subscribedTopic.id)" color="warn" mat-button>Unsubscribe</button>
           </mat-card-actions>
         </mat-card>
       </mat-grid-tile>

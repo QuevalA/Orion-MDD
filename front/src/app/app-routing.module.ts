@@ -10,10 +10,6 @@ import {RegisterComponent} from "./features/auth/register/register.component";
 import {LoginComponent} from "./features/auth/login/login.component";
 import {NotFoundComponent} from "./pages/not-found/not-found.component";
 
-// consider a guard combined with canLoad / canActivate route option
-// to manage unauthenticated user to access private routes
-
-//ToDo: edit "posts/detail" route to "posts/:id" once ready to handle dynamic data
 const routes: Routes = [
   {
     path: '',
@@ -40,7 +36,7 @@ const routes: Routes = [
     component: PostCreationComponent
   },
   {
-    path: 'posts/detail',
+    path: 'posts/:id',
     component: PostDetailComponent
   },
   {

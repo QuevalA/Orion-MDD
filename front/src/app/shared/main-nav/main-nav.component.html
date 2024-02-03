@@ -1,0 +1,44 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer
+               [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+               [mode]="(isHandset$ | async) ? 'over' : 'side'"
+               [opened]="(isHandset$ | async) === false"
+               class="sidenav"
+               fixedInViewport
+               position="end">
+    <mat-nav-list>
+      <a mat-list-item routerLink="/posts">Articles</a>
+      <a mat-list-item routerLink="/topics">Thèmes</a>
+    </mat-nav-list>
+    <button
+      mat-icon-button
+      routerLink="/user"
+      type="button">
+      <mat-icon aria-label="Profile page link icon">person_outline</mat-icon>
+    </button>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar>
+      <img alt="logo" src="/assets/logo_p6.png"/>
+      <span class="top-menu-spacer"></span>
+      <ng-container *ngIf="isHandset$ | async; then toggleButton else navLinks">
+      </ng-container>
+      <ng-template #toggleButton>
+        <button (click)="drawer.toggle()" aria-label="Toggle sidenav" mat-icon-button type="button">
+          <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+        </button>
+      </ng-template>
+      <ng-template #navLinks>
+        <div class="toolbar-links">
+          <a [class.active]="isPostsActive()" routerLink="/posts">Articles</a>
+          <a [class.active]="isTopicsActive()" routerLink="/topics">Thèmes</a>
+          <button mat-icon-button routerLink="/user" type="button">
+            <mat-icon aria-label="Profile page link icon">person_outline</mat-icon>
+          </button>
+        </div>
+      </ng-template>
+    </mat-toolbar>
+    <hr/>
+    <ng-content></ng-content>
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -13,5 +13,6 @@ public class CommentDTO {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime createdAt;
     private Long commentAuthor;
+    private String commentAuthorUsername;
     private Long post;
 }

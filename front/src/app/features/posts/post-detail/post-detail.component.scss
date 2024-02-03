@@ -1,0 +1,18 @@
+.top-content {
+  display: flex;
+  align-content: space-between;
+}
+
+.create-button {
+  color: #7763C5;
+}
+
+.post-infos {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.post-infos span {
+  margin-right: 20px;
+}

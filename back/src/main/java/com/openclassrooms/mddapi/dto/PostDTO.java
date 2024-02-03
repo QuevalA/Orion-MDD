@@ -12,9 +12,11 @@ public class PostDTO {
     private Long id;
     private String title;
     private String content;
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime createdAt;
     private Long topic;
+    private String topicName;
     private Long postAuthor;
+    private String postAuthorUsername;
     private List<Long> comments;
 }

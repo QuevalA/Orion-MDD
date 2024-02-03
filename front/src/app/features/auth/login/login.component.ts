@@ -1,4 +1,6 @@
 import {Component, OnInit} from '@angular/core';
+import {AuthService} from "../../../services/auth.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -10,26 +12,29 @@ export class LoginComponent implements OnInit {
   loginIdentifier: string = '';
   password: string = '';
 
-  constructor() {
+  constructor(private authService: AuthService, private router: Router) {
   }
 
   login() {
-    // Determine whether the input is an email or a username
-    const isEmail = this.isEmail(this.loginIdentifier);
+    const loginRequest = {email: this.loginIdentifier, password: this.password};
 
-    if (isEmail) {
-      // Login with email
-    } else {
-      // Login with username
-    }
+    this.authService.login(loginRequest).subscribe(
+      (response) => {
+        // Store token in localStorage
+        localStorage.setItem('token', response.token);
+
+        this.router.navigate(['/posts']);
+      },
+      (error) => {
+        console.error('Login failed:', error);
+      }
+    );
   }
 
   ngOnInit(): void {
   }
 
-  private isEmail(input: string): boolean {
-    // Basic email validation logic
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(input);
+  goBack(): void {
+    this.router.navigate(['/']);
   }
 }
