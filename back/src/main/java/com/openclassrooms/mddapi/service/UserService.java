@@ -146,7 +146,7 @@ public class UserService implements IUserService {
      * @return The updated user details.
      * @throws RuntimeException if user not found or email is invalid.
      */
-    public UserUpdateDTO updateUserCredentials(String username, String email) {
+    public UserUpdateDTO updateUserCredentials(String username, String email, String password) {
         //Retrieve authenticated User
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
@@ -164,6 +164,10 @@ public class UserService implements IUserService {
                 if (isValidEmail(email)) {
                     user.setEmail(email);
                 }
+            }
+
+            if (password != null && !password.isEmpty()) {
+                user.setPassword(passwordEncoder.encode(password));
             }
 
             user = userRepository.save(user);

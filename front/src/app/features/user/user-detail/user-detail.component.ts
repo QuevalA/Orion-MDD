@@ -1,9 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
 import {UserService} from "../../../services/user.service";
 import {Topic} from "../../../interfaces/topic";
 import {AuthService} from "../../../services/auth.service";
 import {Router} from "@angular/router";
+import {NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-user-detail',
@@ -19,6 +20,7 @@ export class UserDetailComponent implements OnInit {
 
   username: string = '';
   email: string = '';
+  password: string = '';
 
   constructor(
     private breakpointObserver: BreakpointObserver,
@@ -42,6 +44,7 @@ export class UserDetailComponent implements OnInit {
         this.user = user;
         this.username = user.username; // set initial username value
         this.email = user.email; // set initial email value
+
         // Fetch subscribed topics once user data is fetched
         this.fetchSubscribedTopics();
         this.loading = false;
@@ -102,9 +105,10 @@ export class UserDetailComponent implements OnInit {
 
   updateUser(): void {
     this.loading = true;
-    this.userService.updateUser(this.username, this.email).subscribe(
+    this.userService.updateUser(this.username, this.email, this.password).subscribe(
       () => {
         this.loading = false;
+        window.location.reload();
       },
       (error) => {
         console.error('Error updating user:', error);

@@ -90,7 +90,7 @@ export class UserService {
     );
   }
 
-  updateUser(username: string, email: string) {
+  updateUser(username: string, email: string, password: string) {
     const token = this.authSessionService.getToken();
     if (!token) {
       return throwError('Token is missing');
@@ -108,7 +108,8 @@ export class UserService {
 
     const body = {
       "username": username,
-      "email": email
+      "email": email,
+      "password": password
     };
 
     return this.http.put(url, body, {headers, responseType: 'text'}).pipe(

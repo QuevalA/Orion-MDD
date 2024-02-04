@@ -9,6 +9,8 @@ This project is the MVP for Orion's new social media dedicated to developers.
 From the "back" folder, execute `mvn spring-boot:run`
 (make sure the environment variables from application.properties can be resolved)
 
+Javadoc documentation is accessible at: target/site/apidocs/index.html
+
 ## Front
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.1.3.

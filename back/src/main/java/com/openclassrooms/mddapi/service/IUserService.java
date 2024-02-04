@@ -11,5 +11,5 @@ public interface IUserService {
 
     boolean unsubscribeFromTopic(Long userId, Long topicId);
 
-    UserUpdateDTO updateUserCredentials(String username, String email);
+    UserUpdateDTO updateUserCredentials(String username, String email, String password);
 }

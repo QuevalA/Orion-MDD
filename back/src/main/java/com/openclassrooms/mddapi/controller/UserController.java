@@ -87,8 +87,9 @@ public class UserController {
     public ResponseEntity<String> updateUser(@RequestBody Map<String, String> requestBody) {
         String username = requestBody.get("username");
         String email = requestBody.get("email");
+        String password = requestBody.get("password");
 
-        UserUpdateDTO updatedUser = userService.updateUserCredentials(username, email);
+        UserUpdateDTO updatedUser = userService.updateUserCredentials(username, email, password);
 
         if (updatedUser != null) {
             return ResponseEntity.ok("User credentials updated successfully.");
