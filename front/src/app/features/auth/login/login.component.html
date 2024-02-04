@@ -15,12 +15,12 @@
   <form>
     <mat-form-field floatLabel="always">
       <mat-label>Email ou nom d'utilisateur</mat-label>
-      <input [(ngModel)]="loginIdentifier" matInput name="loginIdentifier">
+      <input [(ngModel)]="loginIdentifier" matInput name="loginIdentifier" required>
     </mat-form-field>
 
     <mat-form-field floatLabel="always">
       <mat-label>Mot de passe</mat-label>
-      <input [(ngModel)]="password" matInput name="password" type="password">
+      <input [(ngModel)]="password" matInput name="password" required type="password">
     </mat-form-field>
 
     <button (click)="login()" mat-raised-button>Se connecter</button>

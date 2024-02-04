@@ -2,7 +2,7 @@
   <mat-card-content>
     <h2>Profile utilisateur</h2>
 
-    <form (ngSubmit)="updateUser()">
+    <form #userForm="ngForm" (ngSubmit)="updateUser()">
       <mat-form-field>
         <input [(ngModel)]="username" matInput name="username" placeholder="Nom d'utilisateur">
       </mat-form-field>
@@ -10,7 +10,17 @@
         <input [(ngModel)]="email" matInput name="email" placeholder="Email">
       </mat-form-field>
       <mat-form-field>
-        <input [(ngModel)]="password" matInput name="password" placeholder="Mot de passe" type="password">
+        <input [formControl]="passwordFormControl" matInput name="password" placeholder="Mot de passe" type="password">
+        <mat-error *ngIf="passwordFormControl.hasError('required')">
+          Le mot de passe est requis.
+        </mat-error>
+        <mat-error *ngIf="passwordFormControl.hasError('minlength')">
+          Le mot de passe doit contenir au moins 8 caractères.
+        </mat-error>
+        <mat-error *ngIf="passwordFormControl.hasError('invalidPassword')">
+          Le mot de passe doit contenir au moins une lettre majuscule, une lettre minuscule, un chiffre et un caractère
+          spécial.
+        </mat-error>
       </mat-form-field>
       <button class="save-button" mat-raised-button type="submit">Sauvegarder</button>
     </form>

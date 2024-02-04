@@ -4,7 +4,7 @@ import {UserService} from "../../../services/user.service";
 import {Topic} from "../../../interfaces/topic";
 import {AuthService} from "../../../services/auth.service";
 import {Router} from "@angular/router";
-import {NgForm} from "@angular/forms";
+import {FormControl, NgForm, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-user-detail',
@@ -12,6 +12,8 @@ import {NgForm} from "@angular/forms";
   styleUrls: ['./user-detail.component.scss']
 })
 export class UserDetailComponent implements OnInit {
+
+  @ViewChild('userForm') userForm!: NgForm;
 
   user: any = {};
   isSmallScreen: boolean | undefined;
@@ -21,6 +23,11 @@ export class UserDetailComponent implements OnInit {
   username: string = '';
   email: string = '';
   password: string = '';
+  passwordFormControl = new FormControl('', [
+    Validators.required,
+    Validators.minLength(8),
+    this.passwordValidator.bind(this)
+  ]);
 
   constructor(
     private breakpointObserver: BreakpointObserver,
@@ -31,6 +38,17 @@ export class UserDetailComponent implements OnInit {
     this.breakpointObserver.observe([Breakpoints.Small, Breakpoints.XSmall]).subscribe(result => {
       this.isSmallScreen = result.matches;
     });
+  }
+
+  passwordValidator(control: FormControl) {
+    const value: string = control.value;
+    const hasUpperCase = /[A-Z]/.test(value);
+    const hasLowerCase = /[a-z]/.test(value);
+    const hasDigit = /\d/.test(value);
+    const hasSpecialChar = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(value);
+
+    const isValid = hasUpperCase && hasLowerCase && hasDigit && hasSpecialChar;
+    return isValid ? null : {'invalidPassword': true};
   }
 
   ngOnInit(): void {
@@ -104,16 +122,20 @@ export class UserDetailComponent implements OnInit {
   }
 
   updateUser(): void {
-    this.loading = true;
-    this.userService.updateUser(this.username, this.email, this.password).subscribe(
-      () => {
-        this.loading = false;
-        window.location.reload();
-      },
-      (error) => {
-        console.error('Error updating user:', error);
-        this.loading = false;
-      }
-    );
+    if (this.userForm.valid && this.passwordFormControl.valid) {
+      this.loading = true;
+      this.userService.updateUser(this.username, this.email, this.password).subscribe(
+        () => {
+          this.loading = false;
+          window.location.reload();
+        },
+        (error) => {
+          console.error('Error updating user:', error);
+          this.loading = false;
+        }
+      );
+    } else {
+      console.error('Form is invalid or password does not meet the requirements.');
+    }
   }
 }

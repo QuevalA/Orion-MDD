@@ -15,7 +15,7 @@ import {UserDetailComponent} from './features/user/user-detail/user-detail.compo
 import {NotFoundComponent} from './pages/not-found/not-found.component';
 import {MatIconModule} from "@angular/material/icon";
 import {MatInputModule} from "@angular/material/input";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatCardModule} from "@angular/material/card";
 import {MatSelectModule} from "@angular/material/select";
@@ -58,6 +58,7 @@ import {LayoutModule} from '@angular/cdk/layout';
     MatSidenavModule,
     MatToolbarModule,
     LayoutModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -67,6 +68,7 @@ public class AuthService implements IAuthService {
                 .email(registrationRequest.getEmail())
                 .password(passwordEncoder.encode(registrationRequest.getPassword()))
                 .username(registrationRequest.getUsername())
+                .createdAt(LocalDateTime.now())
                 .build();
 
         userRepository.save(user);

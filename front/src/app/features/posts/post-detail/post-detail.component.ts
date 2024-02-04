@@ -62,7 +62,7 @@ export class PostDetailComponent implements OnInit {
           if (authSession) {
             // Update the comments array with the newly created comment and author information
             this.comments.push({
-              commentAuthorUsername: authSession.userEmail,
+              commentAuthorUsername: authSession.username,
               content: newComment.content
             });
           } else {
