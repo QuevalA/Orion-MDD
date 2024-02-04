@@ -9,6 +9,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Collections;
 
+/**
+ * Implementation of Spring Security UserDetails interface representing authenticated users.
+ */
 public class UserDetailsImpl implements UserDetails {
 
     @Getter
@@ -21,6 +24,12 @@ public class UserDetailsImpl implements UserDetails {
     @Getter
     private User user;
 
+    /**
+     * Builds a UserDetailsImpl object from a User entity.
+     *
+     * @param user the User entity
+     * @return a UserDetailsImpl object representing the user
+     */
     public static UserDetailsImpl build(User user) {
         UserDetailsImpl userDetails = new UserDetailsImpl();
         userDetails.id = user.getId();

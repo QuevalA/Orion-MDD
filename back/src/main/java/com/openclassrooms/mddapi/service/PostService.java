@@ -17,6 +17,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
+/**
+ * Service class for managing posts.
+ */
 @Service
 public class PostService implements IPostService {
 
@@ -26,6 +30,15 @@ public class PostService implements IPostService {
     private final TopicService topicService;
     private final UserService userService;
 
+    /**
+     * Constructs a new PostService with the specified repositories and services.
+     *
+     * @param postRepository  The post repository to use.
+     * @param userRepository  The user repository to use.
+     * @param topicRepository The topic repository to use.
+     * @param topicService    The topic service to use.
+     * @param userService     The user service to use.
+     */
     public PostService(PostRepository postRepository,
                        UserRepository userRepository,
                        TopicRepository topicRepository,

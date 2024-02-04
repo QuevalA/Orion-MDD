@@ -8,16 +8,30 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
+/**
+ * Controller class responsible for handling user-related HTTP requests.
+ */
 @RestController
 @RequestMapping("/users")
 public class UserController {
 
     private IUserService userService;
 
+    /**
+     * Constructor for UserController.
+     *
+     * @param userService the UserService implementation
+     */
     public UserController(IUserService userService) {
         this.userService = userService;
     }
 
+    /**
+     * Retrieves a user by their ID.
+     *
+     * @param id the ID of the user
+     * @return ResponseEntity containing the user information if found, otherwise returns a 404 response
+     */
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
 
@@ -30,6 +44,13 @@ public class UserController {
         }
     }
 
+    /**
+     * Subscribes a user to a topic.
+     *
+     * @param userId  the ID of the user
+     * @param topicId the ID of the topic
+     * @return ResponseEntity indicating the subscription status
+     */
     @PostMapping("/{userId}/subscribe/{topicId}")
     public ResponseEntity<String> subscribeToTopic(@PathVariable Long userId, @PathVariable Long topicId) {
         try {
@@ -40,6 +61,13 @@ public class UserController {
         }
     }
 
+    /**
+     * Unsubscribes a user from a topic.
+     *
+     * @param userId  the ID of the user
+     * @param topicId the ID of the topic
+     * @return ResponseEntity indicating the unsubscription status
+     */
     @PostMapping("/{userId}/unsubscribe/{topicId}")
     public ResponseEntity<String> unsubscribeFromTopic(@PathVariable Long userId, @PathVariable Long topicId) {
         if (userService.unsubscribeFromTopic(userId, topicId)) {
@@ -49,6 +77,12 @@ public class UserController {
         }
     }
 
+    /**
+     * Updates user credentials.
+     *
+     * @param requestBody the request body containing user credentials
+     * @return ResponseEntity indicating the update status
+     */
     @PutMapping
     public ResponseEntity<String> updateUser(@RequestBody Map<String, String> requestBody) {
         String username = requestBody.get("username");

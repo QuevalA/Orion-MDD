@@ -16,13 +16,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
+/**
+ * Service class for handling user-related operations.
+ */
 @Service
 public class UserService implements IUserService {
 
@@ -32,6 +32,15 @@ public class UserService implements IUserService {
     private PostRepository postRepository;
     private CommentRepository commentRepository;
 
+    /**
+     * Constructs a new UserService with the required repositories and password encoder.
+     *
+     * @param userRepository    The user repository.
+     * @param topicRepository   The topic repository.
+     * @param postRepository    The post repository.
+     * @param commentRepository The comment repository.
+     * @param passwordEncoder   The password encoder.
+     */
     public UserService(UserRepository userRepository,
                        TopicRepository topicRepository,
                        PostRepository postRepository,
@@ -45,6 +54,12 @@ public class UserService implements IUserService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    /**
+     * Retrieves a UserDTO by its ID.
+     *
+     * @param id The ID of the user.
+     * @return The UserDTO if found, or null if not found.
+     */
     @Override
     public UserDTO getUserDTOById(Long id) {
         User user = userRepository.findById(id).orElse(null);
@@ -52,11 +67,25 @@ public class UserService implements IUserService {
         return (user != null) ? convertUserEntityToDto(user) : null;
     }
 
+    /**
+     * Retrieves a User entity by its ID.
+     *
+     * @param id The ID of the user.
+     * @return The User entity if found, or null if not found.
+     */
     public User getUserEntityById(Long id) {
 
         return userRepository.findById(id).orElse(null);
     }
 
+    /**
+     * Subscribes a user to a topic.
+     *
+     * @param userId  The ID of the user.
+     * @param topicId The ID of the topic.
+     * @return true if subscribed successfully, false otherwise.
+     * @throws RuntimeException if user or topic not found, or user is already subscribed to the topic.
+     */
     public boolean subscribeToTopic(Long userId, Long topicId) {
         User user = userRepository.findById(userId).orElse(null);
 
@@ -83,6 +112,13 @@ public class UserService implements IUserService {
         }
     }
 
+    /**
+     * Unsubscribes a user from a topic.
+     *
+     * @param userId  The ID of the user.
+     * @param topicId The ID of the topic.
+     * @return true if unsubscribed successfully, false otherwise.
+     */
     public boolean unsubscribeFromTopic(Long userId, Long topicId) {
         User user = userRepository.findById(userId).orElse(null);
 
@@ -102,6 +138,14 @@ public class UserService implements IUserService {
         return false;
     }
 
+    /**
+     * Updates user credentials.
+     *
+     * @param username The new username.
+     * @param email    The new email.
+     * @return The updated user details.
+     * @throws RuntimeException if user not found or email is invalid.
+     */
     public UserUpdateDTO updateUserCredentials(String username, String email) {
         //Retrieve authenticated User
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -130,6 +174,12 @@ public class UserService implements IUserService {
         }
     }
 
+    /**
+     * Checks if the given email is valid.
+     *
+     * @param input The email to validate.
+     * @return true if the email is valid, false otherwise.
+     */
     private boolean isValidEmail(String input) {
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
 
@@ -141,6 +191,12 @@ public class UserService implements IUserService {
         return matcher.matches();
     }
 
+    /**
+     * Converts a User entity to a UserDTO.
+     *
+     * @param user The User entity to convert.
+     * @return The corresponding UserDTO.
+     */
     UserDTO convertUserEntityToDto(User user) {
         UserDTO userDTO = new UserDTO();
 
@@ -163,6 +219,12 @@ public class UserService implements IUserService {
         return userDTO;
     }
 
+    /**
+     * Converts a User entity to a UserUpdateDTO.
+     *
+     * @param user The User entity to convert.
+     * @return The corresponding UserUpdateDTO.
+     */
     public UserUpdateDTO convertUserEntityToUpdateDto(User user) {
         UserUpdateDTO userUpdateDTO = new UserUpdateDTO();
 
@@ -172,32 +234,4 @@ public class UserService implements IUserService {
 
         return userUpdateDTO;
     }
-
-    /*public User convertUserDTOToEntity(UserDTO userDTO) {
-        User user = new User();
-
-        user.setId(userDTO.getId());
-        user.setEmail(userDTO.getEmail());
-        user.setUsername(userDTO.getUsername());
-
-        List<Post> authoredPosts = userDTO.getAuthoredPosts().stream()
-                .map(postId -> postRepository.findById(postId).orElse(null))
-                .filter(Objects::nonNull)
-                .collect(Collectors.toList());
-        user.setAuthoredPosts(authoredPosts);
-
-        List<Comment> authoredComments = userDTO.getAuthoredComments().stream()
-                .map(commentId -> commentRepository.findById(commentId).orElse(null))
-                .filter(Objects::nonNull)
-                .collect(Collectors.toList());
-        user.setAuthoredComments(authoredComments);
-
-        Set<Topic> subscribedTopics = userDTO.getSubscribedTopics().stream()
-                .map(topicId -> topicRepository.findById(topicId).orElse(null))
-                .filter(Objects::nonNull)
-                .collect(Collectors.toSet());
-        user.setSubscribedTopics(subscribedTopics);
-
-        return user;
-    }*/
 }

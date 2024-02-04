@@ -12,18 +12,34 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 
+/**
+ * Custom JWT authentication filter.
+ */
 @Component
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtUtils;
 
+    /**
+     * Constructs a new JwtAuthenticationFilter.
+     *
+     * @param authenticationManager the authentication manager
+     * @param jwtUtils              the JWT utility class
+     */
     public JwtAuthenticationFilter(AuthenticationManager authenticationManager, JwtUtils jwtUtils) {
         this.authenticationManager = authenticationManager;
         this.jwtUtils = jwtUtils;
         super.setAuthenticationManager(authenticationManager);
     }
 
+    /**
+     * Attempt to authenticate the user using the credentials provided in the request.
+     *
+     * @param request  the HTTP request
+     * @param response the HTTP response
+     * @return the authenticated user's authentication object
+     */
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) {
         try {

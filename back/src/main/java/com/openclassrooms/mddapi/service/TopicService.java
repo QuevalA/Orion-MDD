@@ -13,79 +13,83 @@ import org.springframework.stereotype.Service;
 
 import com.openclassrooms.mddapi.repository.TopicRepository;
 
+/**
+ * Service class for managing topics.
+ */
 @Service
 public class TopicService implements ITopicService {
-	private final TopicRepository topicRepository;
-	private final UserService userService;
+    private final TopicRepository topicRepository;
+    private final UserService userService;
 
-	public TopicService(TopicRepository topicRepository, UserService userService) {
-		this.topicRepository = topicRepository;
-		this.userService = userService;
+    /**
+     * Constructs a new TopicService with the specified topic repository and user service.
+     *
+     * @param topicRepository The topic repository to use.
+     * @param userService     The user service to use.
+     */
+    public TopicService(TopicRepository topicRepository, UserService userService) {
+        this.topicRepository = topicRepository;
+        this.userService = userService;
 
-	}
+    }
 
-	@Override
-	public List<TopicDTO> getTopics() {
-		List<Topic> topics = topicRepository.findAll();
+    @Override
+    public List<TopicDTO> getTopics() {
+        List<Topic> topics = topicRepository.findAll();
 
-		return topics.stream().map(this::convertTopicEntityToDto).collect(Collectors.toList());
-	}
+        return topics.stream().map(this::convertTopicEntityToDto).collect(Collectors.toList());
+    }
 
-	@Override
-	public TopicDTO getTopicDTOById(Long id) {
-		Topic topic = topicRepository.findById(id).orElse(null);
+    @Override
+    public TopicDTO getTopicDTOById(Long id) {
+        Topic topic = topicRepository.findById(id).orElse(null);
 
-		return (topic != null) ? convertTopicEntityToDto(topic) : null;
-	}
+        return (topic != null) ? convertTopicEntityToDto(topic) : null;
+    }
 
-	public Topic getTopicEntityById(Long id) {
+    public Topic getTopicEntityById(Long id) {
 
         return topicRepository.findById(id).orElse(null);
-	}
+    }
 
-	public List<SubscribedTopicDTO> getSubscribedTopicsByUserId(Long userId) {
-		User user = userService.getUserEntityById(userId);
+    /**
+     * Retrieves the topics subscribed by a user.
+     *
+     * @param userId The ID of the user.
+     * @return The list of subscribed topics if found, an empty list otherwise.
+     */
+    public List<SubscribedTopicDTO> getSubscribedTopicsByUserId(Long userId) {
+        User user = userService.getUserEntityById(userId);
 
-		if (user != null) {
-			Set<Topic> subscribedTopics = user.getSubscribedTopics();
+        if (user != null) {
+            Set<Topic> subscribedTopics = user.getSubscribedTopics();
 
-			return subscribedTopics.stream()
-					.map(this::convertSubscribedTopicEntityToDto)
-					.collect(Collectors.toList());
-		}
+            return subscribedTopics.stream()
+                    .map(this::convertSubscribedTopicEntityToDto)
+                    .collect(Collectors.toList());
+        }
 
-		return Collections.emptyList();
-	}
+        return Collections.emptyList();
+    }
 
-	private TopicDTO convertTopicEntityToDto(Topic topic){
-		TopicDTO topicDTO = new TopicDTO();
+    private TopicDTO convertTopicEntityToDto(Topic topic) {
+        TopicDTO topicDTO = new TopicDTO();
 
-		topicDTO.setId(topic.getId());
-		topicDTO.setName(topic.getName());
-		topicDTO.setDescription(topic.getDescription());
-		topicDTO.setCreatedAt(topic.getCreatedAt());
+        topicDTO.setId(topic.getId());
+        topicDTO.setName(topic.getName());
+        topicDTO.setDescription(topic.getDescription());
+        topicDTO.setCreatedAt(topic.getCreatedAt());
 
-		return topicDTO;
-	}
+        return topicDTO;
+    }
 
-	public Topic convertTopicDTOToEntity(TopicDTO topicDTO) {
-		Topic topic = new Topic();
+    private SubscribedTopicDTO convertSubscribedTopicEntityToDto(Topic topic) {
+        SubscribedTopicDTO subscribedTopicDTO = new SubscribedTopicDTO();
 
-		topic.setId(topicDTO.getId());
-		topic.setName(topicDTO.getName());
-		topic.setDescription(topicDTO.getDescription());
-		topic.setCreatedAt(topicDTO.getCreatedAt());
+        subscribedTopicDTO.setId(topic.getId());
+        subscribedTopicDTO.setName(topic.getName());
+        subscribedTopicDTO.setDescription(topic.getDescription());
 
-		return topic;
-	}
-
-	private SubscribedTopicDTO convertSubscribedTopicEntityToDto(Topic topic) {
-		SubscribedTopicDTO subscribedTopicDTO = new SubscribedTopicDTO();
-
-		subscribedTopicDTO.setId(topic.getId());
-		subscribedTopicDTO.setName(topic.getName());
-		subscribedTopicDTO.setDescription(topic.getDescription());
-
-		return subscribedTopicDTO;
-	}
+        return subscribedTopicDTO;
+    }
 }

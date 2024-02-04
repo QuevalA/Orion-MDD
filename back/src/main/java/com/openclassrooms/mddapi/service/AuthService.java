@@ -25,6 +25,9 @@ import javax.validation.Valid;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Service class responsible for handling authentication-related operations.
+ */
 @Service
 public class AuthService implements IAuthService {
 
@@ -48,6 +51,12 @@ public class AuthService implements IAuthService {
         this.authenticationManager = authenticationManager;
     }
 
+    /**
+     * Registers a new user.
+     *
+     * @param registrationRequest The registration request containing user details.
+     * @return ResponseEntity with the result of the registration process.
+     */
     @Override
     public ResponseEntity<?> registerUser(RegistrationRequest registrationRequest) {
         if (userRepository.existsByEmail(registrationRequest.getEmail())) {
@@ -71,6 +80,12 @@ public class AuthService implements IAuthService {
         return ResponseEntity.ok(authenticationResponse);
     }
 
+    /**
+     * Authenticates a user.
+     *
+     * @param authRequest The authentication request containing user credentials.
+     * @return ResponseEntity with the result of the login process.
+     */
     @Override
     public ResponseEntity<?> loginUser(@Valid @RequestBody AuthRequest authRequest) {
         try {
@@ -106,6 +121,12 @@ public class AuthService implements IAuthService {
         }
     }
 
+    /**
+     * Validates if the provided input is a valid email address.
+     *
+     * @param input The input string to validate.
+     * @return True if the input is a valid email address, false otherwise.
+     */
     private boolean isValidEmail(String input) {
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
 
@@ -117,6 +138,11 @@ public class AuthService implements IAuthService {
         return matcher.matches();
     }
 
+    /**
+     * Logs out the currently authenticated user.
+     *
+     * @return ResponseEntity with the result of the logout process.
+     */
     @Override
     public ResponseEntity<?> logoutUser() {
         SecurityContextHolder.clearContext();
