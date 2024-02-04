@@ -49,12 +49,12 @@ public class UserController {
         }
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<String> updateUser(@PathVariable Long id, @RequestBody Map<String, String> requestBody) {
-        String emailOrUsername = requestBody.get("email-or-username");
-        String password = requestBody.get("password");
+    @PutMapping
+    public ResponseEntity<String> updateUser(@RequestBody Map<String, String> requestBody) {
+        String username = requestBody.get("username");
+        String email = requestBody.get("email");
 
-        UserUpdateDTO updatedUser = userService.updateUserCredentials(id, emailOrUsername, password);
+        UserUpdateDTO updatedUser = userService.updateUserCredentials(username, email);
 
         if (updatedUser != null) {
             return ResponseEntity.ok("User credentials updated successfully.");

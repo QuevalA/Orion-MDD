@@ -29,4 +29,8 @@ export class MainNavComponent {
   isTopicsActive(): boolean {
     return this.router.url === '/topics';
   }
+
+  isUsersActive(): boolean {
+    return this.router.url === '/user';
+  }
 }

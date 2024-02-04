@@ -20,7 +20,9 @@
   <mat-sidenav-content>
     <mat-toolbar>
       <img alt="logo" src="/assets/logo_p6.png"/>
+
       <span class="top-menu-spacer"></span>
+
       <ng-container *ngIf="isHandset$ | async; then toggleButton else navLinks">
       </ng-container>
       <ng-template #toggleButton>
@@ -28,11 +30,12 @@
           <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
         </button>
       </ng-template>
+
       <ng-template #navLinks>
         <div class="toolbar-links">
           <a [class.active]="isPostsActive()" routerLink="/posts">Articles</a>
           <a [class.active]="isTopicsActive()" routerLink="/topics">Thèmes</a>
-          <button mat-icon-button routerLink="/user" type="button">
+          <button [class.active]="isUsersActive()" mat-icon-button routerLink="/user" type="button">
             <mat-icon aria-label="Profile page link icon">person_outline</mat-icon>
           </button>
         </div>

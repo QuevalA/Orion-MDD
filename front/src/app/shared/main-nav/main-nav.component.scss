@@ -33,12 +33,13 @@ mat-toolbar a {
   text-decoration: none;
 }
 
-mat-toolbar a.active {
+mat-toolbar a.active, button.active {
   color: #7763C5;
 }
 
 .toolbar-links {
   display: flex;
+  align-items: center;
   gap: 20px;
 }
 

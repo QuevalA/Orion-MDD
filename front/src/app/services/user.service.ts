@@ -20,7 +20,6 @@ export class UserService {
   }
 
   getLoggedInUser(): Observable<any> {
-
     const token = this.authSessionService.getToken();
     if (!token) {
       return throwError('Token is missing');
@@ -87,6 +86,35 @@ export class UserService {
       catchError(error => {
         console.error('(Service) Unsubscription failed: ', error);
         return throwError('(Service) Unsubscription failed');
+      })
+    );
+  }
+
+  updateUser(username: string, email: string) {
+    const token = this.authSessionService.getToken();
+    if (!token) {
+      return throwError('Token is missing');
+    }
+
+    const authSession = this.authSessionService.isValidToken(token);
+    if (!authSession) {
+      return throwError('Invalid token');
+    }
+
+    const url = `${this.backendUrl}`;
+    const headers = new HttpHeaders()
+      .set('Authorization', `Bearer ${token}`)
+      .set('Content-Type', 'application/json');
+
+    const body = {
+      "username": username,
+      "email": email
+    };
+
+    return this.http.put(url, body, {headers, responseType: 'text'}).pipe(
+      catchError(error => {
+        console.error('(Service) User update failed: ', error);
+        return throwError('(Service) User update failed');
       })
     );
   }

@@ -2,12 +2,12 @@
   <mat-card-content>
     <h2>Profile utilisateur</h2>
 
-    <form>
+    <form (ngSubmit)="updateUser()">
       <mat-form-field>
-        <input matInput placeholder="Username">
+        <input [(ngModel)]="username" matInput name="username" placeholder="Username">
       </mat-form-field>
       <mat-form-field>
-        <input matInput placeholder="Email">
+        <input [(ngModel)]="email" matInput name="email" placeholder="Email">
       </mat-form-field>
       <button class="save-button" mat-raised-button type="submit">Sauvegarder</button>
     </form>

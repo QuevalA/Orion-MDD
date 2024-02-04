@@ -8,8 +8,7 @@ import java.time.LocalDateTime;
 public class UserUpdateDTO {
 
     private Long id;
-    private String email;
     private String username;
-    private String password;
+    private String email;
     private LocalDateTime updatedAt;
 }

@@ -17,6 +17,9 @@ export class UserDetailComponent implements OnInit {
   loading: boolean = false;
   error: string | undefined;
 
+  username: string = '';
+  email: string = '';
+
   constructor(
     private breakpointObserver: BreakpointObserver,
     private userService: UserService,
@@ -37,6 +40,8 @@ export class UserDetailComponent implements OnInit {
     this.userService.getLoggedInUser().subscribe(
       (user) => {
         this.user = user;
+        this.username = user.username; // set initial username value
+        this.email = user.email; // set initial email value
         // Fetch subscribed topics once user data is fetched
         this.fetchSubscribedTopics();
         this.loading = false;
@@ -91,6 +96,19 @@ export class UserDetailComponent implements OnInit {
       },
       (error) => {
         console.error('Logout failed:', error);
+      }
+    );
+  }
+
+  updateUser(): void {
+    this.loading = true;
+    this.userService.updateUser(this.username, this.email).subscribe(
+      () => {
+        this.loading = false;
+      },
+      (error) => {
+        console.error('Error updating user:', error);
+        this.loading = false;
       }
     );
   }

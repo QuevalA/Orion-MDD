@@ -10,6 +10,9 @@ import com.openclassrooms.mddapi.repository.CommentRepository;
 import com.openclassrooms.mddapi.repository.PostRepository;
 import com.openclassrooms.mddapi.repository.TopicRepository;
 import com.openclassrooms.mddapi.repository.UserRepository;
+import com.openclassrooms.mddapi.security.services.UserDetailsImpl;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -99,22 +102,24 @@ public class UserService implements IUserService {
         return false;
     }
 
-    public UserUpdateDTO updateUserCredentials(Long userId, String emailOrUsername, String password) {
+    public UserUpdateDTO updateUserCredentials(String username, String email) {
+        //Retrieve authenticated User
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        Long userId = userDetails.getId();
+
         // Retrieve the user entity from the database
         User user = userRepository.findById(userId).orElse(null);
 
         if (user != null) {
-            if (emailOrUsername != null && !emailOrUsername.isEmpty()) {
-                // Check if the provided value is an email
-                if (isValidEmail(emailOrUsername)) {
-                    user.setEmail(emailOrUsername);
-                } else {
-                    user.setUsername(emailOrUsername);
-                }
+            if (username != null && !username.isEmpty()) {
+                user.setUsername(username);
             }
 
-            if (password != null && !password.isEmpty()) {
-                user.setPassword(passwordEncoder.encode(password));
+            if (email != null && !email.isEmpty()) {
+                if (isValidEmail(email)) {
+                    user.setEmail(email);
+                }
             }
 
             user = userRepository.save(user);
@@ -162,13 +167,13 @@ public class UserService implements IUserService {
         UserUpdateDTO userUpdateDTO = new UserUpdateDTO();
 
         userUpdateDTO.setId(user.getId());
-        userUpdateDTO.setEmail(user.getEmail());
         userUpdateDTO.setUsername(user.getUsername());
+        userUpdateDTO.setEmail(user.getEmail());
 
         return userUpdateDTO;
     }
 
-    public User convertUserDTOToEntity(UserDTO userDTO) {
+    /*public User convertUserDTOToEntity(UserDTO userDTO) {
         User user = new User();
 
         user.setId(userDTO.getId());
@@ -194,5 +199,5 @@ public class UserService implements IUserService {
         user.setSubscribedTopics(subscribedTopics);
 
         return user;
-    }
+    }*/
 }
